@@ -1,0 +1,20 @@
+import smtplib
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEText import MIMEText
+from email.mime.application import MIMEApplication
+ 
+server = smtplib.SMTP('smtp.gmail.com', 587)
+server.starttls()
+server.login("superscraper09@gmail.com", "newsayone1234")
+msg = MIMEMultipart()
+msg['Subject'] = "Auto Spider"
+body = "Here Are the result...."
+
+with open("./result.json", "rb") as fil:
+    part = MIMEApplication(fil.read(),Name='result.json')
+    part['Content-Disposition'] = 'attachment; filename="%s"' % 'result.json'
+    msg.attach(part)
+msg.attach(MIMEText(body, 'plain'))
+text = msg.as_string()
+server.sendmail("superscraper09@gmail.com", "jithinjohnson11@gmail.com", text)
+server.quit()
